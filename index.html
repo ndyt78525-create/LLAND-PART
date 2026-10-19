@@ -1,0 +1,702 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>LAND PART | فروشگاه تخصصی قطعات تریلی</title>
+<style>
+:root {
+  --red:#d71920;
+  --gold:#e9b949;
+  --bg:#101010;
+  --panel:#1a1a1a;
+  --muted:#aaa;
+  --line:#303030;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:#fff;
+  font-family:Tahoma,Arial,sans-serif;line-height:1.8;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold)}
+a{color:inherit;text-decoration:none}
+header{
+  position:sticky;top:0;z-index:10;
+  background:#111e;backdrop-filter:blur(14px);
+  border-bottom:1px solid #333;
+}
+.topbar{
+  max-width:1250px;margin:auto;padding:12px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--gold)}
+.logo small{display:block;font-size:10px;color:#bbb;letter-spacing:3px}
+.btn{
+  border:0;border-radius:10px;padding:10px 15px;
+  font-weight:bold;transition:.25s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.primary{background:var(--red);color:white}
+.gold{background:var(--gold);color:#171717}
+.dark{background:#292929;color:white;border:1px solid #444}
+.wrap{max-width:1250px;margin:auto;padding:22px 18px}
+.hero{
+  min-height:340px;border-radius:22px;overflow:hidden;
+  padding:35px;position:relative;
+  background:linear-gradient(100deg,#090909 10%,#171717dd 50%,#5c1015aa),
+  url("https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1600&q=85") center/cover;
+  border:1px solid #3d3030;display:flex;align-items:center;
+}
+.hero-content{max-width:600px;position:relative;z-index:1}
+.eyebrow{color:var(--gold);font-weight:bold}
+.hero h1{font-size:clamp(28px,5vw,52px);line-height:1.4;margin:10px 0}
+.hero p{color:#ddd;max-width:510px}
+.hero .btn{margin:5px 4px 5px 0}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 30px;
+}
+.stat,.category,.product,.admin-box{
+  background:var(--panel);border:1px solid var(--line);border-radius:15px;
+}
+.stat{padding:16px;text-align:center}
+.stat strong{color:var(--gold);display:block;font-size:19px}
+.stat span{color:#aaa;font-size:12px}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;margin:30px 0 15px;
+}
+h2{font-size:22px;margin:0}
+.section-head p{margin:0;color:var(--muted);font-size:13px}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.category{
+  padding:16px;text-align:center;cursor:pointer;transition:.25s;
+}
+.category:hover,.category.active{
+  border-color:var(--gold);transform:translateY(-3px);
+}
+.category .emoji{font-size:27px}
+.category strong{display:block;font-size:13px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar input,.toolbar select{
+  background:#1c1c1c;color:white;border:1px solid #444;
+  border-radius:10px;padding:12px;min-width:0;
+}
+#search{flex:1;min-width:180px}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.product{overflow:hidden;transition:.25s}
+.product:hover{transform:translateY(-4px);border-color:#755d2a}
+.product img{width:100%;height:180px;object-fit:cover;background:#252525;display:block}
+.product-body{padding:14px}
+.tag{font-size:11px;color:var(--gold)}
+.product h3{font-size:15px;margin:5px 0}
+.desc{font-size:12px;color:#aaa;min-height:43px}
+.price{font-size:17px;color:var(--gold);font-weight:bold;margin:9px 0}
+.stock{font-size:12px;color:#69d89b}
+.stock.out{color:#ff7070}
+.product-actions{display:flex;gap:7px;margin-top:10px}
+.product-actions button{flex:1;font-size:12px;padding:9px 5px}
+.empty{grid-column:1/-1;text-align:center;color:#aaa;padding:35px}
+footer{border-top:1px solid #333;margin-top:40px;padding:30px 18px;color:#aaa;text-align:center}
+footer strong{color:var(--gold)}
+.modal{
+  display:none;position:fixed;inset:0;z-index:30;
+  background:#000c;overflow-y:auto;padding:18px;
+}
+.modal.show{display:block}
+.modal-card{
+  max-width:780px;margin:25px auto;background:#181818;
+  border:1px solid #444;border-radius:18px;padding:22px;
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:#bbb}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px;background:#101010;color:white;
+  border:1px solid #444;border-radius:9px;
+}
+.field textarea{min-height:80px}
+.admin-list{display:grid;gap:9px;margin-top:20px}
+.admin-item{
+  display:flex;align-items:center;gap:12px;justify-content:space-between;
+  padding:10px;background:#222;border-radius:10px;flex-wrap:wrap;
+}
+.admin-item img{width:55px;height:55px;object-fit:cover;border-radius:8px}
+.admin-item .details{flex:1;min-width:100px;font-size:13px}
+.notice{font-size:12px;color:#e9c76c;background:#322b18;padding:12px;border-radius:10px;margin:15px 0}
+.cart-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #333}
+.cart-row button{padding:3px 9px}
+.qty{display:flex;align-items:center;gap:8px}
+.floating{
+  position:fixed;bottom:18px;left:18px;z-index:8;
+  border-radius:50px;box-shadow:0 6px 30px #0009;
+}
+@media(max-width:900px){
+ .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .categories{grid-template-columns:repeat(4,1fr)}
+ .hero{padding:25px;min-height:300px}
+}
+@media(max-width:620px){
+ .wrap{padding:15px 12px}
+ .topbar{padding:10px 12px}
+ .logo{font-size:19px}
+ .topbar .btn{padding:8px;font-size:12px}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .product img{height:135px}
+ .product-body{padding:10px}
+ .product h3{font-size:13px}
+ .product-actions{flex-direction:column}
+ .categories{grid-template-columns:repeat(2,1fr)}
+ .hero{min-height:330px;padding:20px;background-position:60%}
+ .stats{gap:7px}
+ .stat{padding:10px 4px}
+ .stat strong{font-size:15px}
+ .stat span{font-size:10px}
+ .form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .modal{padding:8px}
+ .modal-card{padding:15px;margin:8px auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <a href="#" class="logo">LAND <span>PART</span>
+      <small>TRUCK & TRAILER PARTS</small>
+    </a>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn dark" onclick="openCart()">🛒 سبد <span id="cartCount">۰</span></button>
+      <button class="btn gold" onclick="openAdmin()">⚙ مدیریت</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">قدرت، کیفیت، اطمینان</div>
+      <h1>هر قطعه‌ای که تریلی شما نیاز دارد</h1>
+      <p>فروش قطعات تریلی، زیربندی SAF و BP، لوازم تانکر، کالیپر، لنت، کیسه باد و تجهیزات کشنده.</p>
+      <button class="btn primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">مشاهده محصولات ←</button>
+      <button class="btn gold" onclick="contactUs()">استعلام قیمت در واتساپ</button>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><strong>LAND PART</strong><span>فروشگاه تخصصی قطعات</span></div>
+    <div class="stat"><strong>SAF / BP</strong><span>قطعات و زیربندی</span></div>
+    <div class="stat"><strong>پاسخ‌گویی مستقیم</strong><span>تماس و واتساپ</span></div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2>دسته‌بندی محصولات</h2>
+      <p>دسته موردنظرت را انتخاب کن</p>
+    </div>
+    <div class="categories" id="categories"></div>
+  </section>
+
+  <section id="shop">
+    <div class="section-head">
+      <h2>محصولات فروشگاه</h2>
+      <p id="productCount"></p>
+    </div>
+    <div class="toolbar">
+      <input id="search" placeholder="🔍 نام قطعه یا برند را جست‌وجو کن..." oninput="renderProducts()">
+      <select id="stockFilter" onchange="renderProducts()">
+        <option value="all">همه محصولات</option>
+        <option value="available">فقط موجود</option>
+        <option value="out">ناموجودها</option>
+      </select>
+      <select id="sortBy" onchange="renderProducts()">
+        <option value="default">مرتب‌سازی پیش‌فرض</option>
+        <option value="low">ارزان‌ترین</option>
+        <option value="high">گران‌ترین</option>
+      </select>
+    </div>
+    <div class="products" id="products"></div>
+  </section>
+</main>
+
+<footer>
+  <strong>LAND PART</strong>
+  <p>مرجع قطعات تریلی و کشنده</p>
+  <p>برای اطلاع از قیمت روز و موجودی، با فروشگاه تماس بگیرید.</p>
+  <button class="btn gold" onclick="contactUs()">ارتباط با فروشگاه</button>
+  <p style="font-size:11px">© LAND PART — تمامی حقوق محفوظ است.</p>
+</footer>
+
+<button class="btn primary floating" onclick="openCart()">🛒 سبد خرید <span id="floatCount">۰</span></button>
+
+<!-- پنل مدیریت -->
+<div class="modal" id="adminModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>⚙ پنل مدیریت LAND PART</h2>
+      <button class="btn dark" onclick="closeModal('adminModal')">✕</button>
+    </div>
+    <div id="loginBox">
+      <p>برای مدیریت محصولات، رمز پنل را وارد کن.</p>
+      <div class="field">
+        <label>رمز مدیریت نمونه</label>
+        <input type="password" id="adminPassword" placeholder="رمز را وارد کن">
+      </div>
+      <button class="btn gold" style="margin-top:12px" onclick="loginAdmin()">ورود به پنل</button>
+      <div class="notice">هشدار: رمز این نسخه داخل کد مرورگر قرار دارد و امنیت واقعی ندارد. برای سایت عمومی باید پنل امن و ورود سمت سرور ساخته شود.</div>
+    </div>
+
+    <div id="adminContent" style="display:none">
+      <div class="notice">
+        تغییرات این نسخه در همین مرورگر ذخیره می‌شوند. عکس‌های بزرگ ممکن است فضای ذخیره‌سازی مرورگر را پر کنند.
+      </div>
+      <h3 id="formTitle">➕ افزودن محصول جدید</h3>
+      <form id="productForm" onsubmit="saveProduct(event)">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <div class="field">
+            <label>نام محصول *</label>
+            <input id="pName" required maxlength="100" placeholder="مثلاً کیسه باد تریلی">
+          </div>
+          <div class="field">
+            <label>دسته‌بندی *</label>
+            <select id="pCategory" required></select>
+          </div>
+          <div class="field">
+            <label>قیمت به تومان (عدد) *</label>
+            <input id="pPrice" type="number" min="0" required placeholder="مثلاً 2500000">
+          </div>
+          <div class="field">
+            <label>تعداد موجودی *</label>
+            <input id="pStock" type="number" min="0" step="1" required value="1">
+          </div>
+          <div class="field full">
+            <label>توضیحات</label>
+            <textarea id="pDesc" maxlength="1000" placeholder="برند، مدل، سازگاری و مشخصات قطعه..."></textarea>
+          </div>
+          <div class="field full">
+            <label>عکس محصول از گالری گوشی</label>
+            <input id="pImage" type="file" accept="image/*">
+            <img id="imagePreview" alt="پیش‌نمایش عکس" style="display:none;width:140px;height:100px;object-fit:contain;background:#222;border-radius:8px">
+            <small style="color:#aaa">برای عکس بهتر است از تصویر واضح و واقعی محصول استفاده کنی.</small>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px">
+          <button class="btn gold" type="submit">ذخیره محصول</button>
+          <button class="btn dark" type="button" onclick="resetProductForm()">پاک کردن فرم</button>
+        </div>
+      </form>
+      <hr style="border-color:#333;margin:25px 0">
+      <h3>📦 مدیریت محصولات</h3>
+      <div class="admin-list" id="adminList"></div>
+      <hr style="border-color:#333;margin:25px 0">
+      <h3>پشتیبان اطلاعات</h3>
+      <p style="color:#aaa;font-size:12px">برای انتقال اطلاعات محصولات به دستگاه دیگر می‌توانی فایل پشتیبان بگیری.</p>
+      <button class="btn dark" onclick="exportData()">دانلود پشتیبان محصولات</button>
+      <button class="btn dark" onclick="document.getElementById('importFile').click()">بازیابی پشتیبان</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden onchange="importData(event)">
+      <button class="btn dark" onclick="logoutAdmin()">خروج از مدیریت</button>
+    </div>
+  </div>
+</div>
+
+<!-- سبد خرید -->
+<div class="modal" id="cartModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>🛒 سبد خرید</h2>
+      <button class="btn dark" onclick="closeModal('cartModal')">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal">جمع کل: ۰ تومان</h3>
+    <div class="field">
+      <label>نام خریدار</label>
+      <input id="buyerName" placeholder="نام شما">
+    </div>
+    <div class="field" style="margin-top:10px">
+      <label>شماره تماس خریدار</label>
+      <input id="buyerPhone" type="tel" placeholder="شماره تماس">
+    </div>
+    <div class="field" style="margin-top:10px">
+      <label>توضیحات سفارش</label>
+      <textarea id="buyerNote" placeholder="مدل تریلی، آدرس یا توضیح دیگر..."></textarea>
+    </div>
+    <button class="btn gold" style="width:100%;margin-top:15px" onclick="checkout()">ارسال سفارش به واتساپ</button>
+    <p style="color:#aaa;font-size:11px">این نسخه پرداخت آنلاین ندارد؛ سفارش از طریق واتساپ ارسال می‌شود.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/*
+  LAND PART - نسخه نمایشی تک‌فایلی
+  رمز نمونه پنل: 2468
+  شماره واتساپ را با شماره واقعی فروشگاه بررسی کن.
+*/
+const WHATSAPP_NUMBER = "989939799508";
+const ADMIN_PASSWORD = "2468";
+
+const CATEGORIES = [
+  {id:"decoration", name:"تزیینات", emoji:"✨"},
+  {id:"suspension", name:"زیربندی SAF / BP", emoji:"⚙️"},
+  {id:"tank", name:"لوازم تانکر", emoji:"🚛"},
+  {id:"caliper", name:"لوازم کالیپر", emoji:"🔩"},
+  {id:"tractor", name:"قطعات کشنده", emoji:"🚚"},
+  {id:"brake", name:"لنت ترمز", emoji:"🛞"},
+  {id:"airbag", name:"کیسه باد", emoji:"💨"},
+  {id:"lights", name:"چراغ خطر", emoji:"💡"}
+];
+
+const SAMPLE_PRODUCTS = [
+  {id:"demo1",name:"کیسه باد تریلی",category:"airbag",price:0,stock:5,desc:"نمونه اولیه؛ قیمت و مشخصات واقعی را وارد کنید.",image:"https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo2",name:"قطعه زیربندی SAF / BP",category:"suspension",price:0,stock:3,desc:"نمونه اولیه؛ برند و مدل قطعه را تکمیل کنید.",image:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo3",name:"چراغ خطر تریلی",category:"lights",price:0,stock:8,desc:"نمونه اولیه؛ عکس و مشخصات واقعی را جایگزین کنید.",image:"https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo4",name:"لوازم ترمز و کالیپر",category:"caliper",price:0,stock:2,desc:"نمونه اولیه؛ سازگاری و مدل را در توضیحات بنویسید.",image:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo5",name:"لنت ترمز",category:"brake",price:0,stock:0,desc:"نمونه نمایشی؛ وضعیت موجودی را بررسی کنید.",image:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo6",name:"لوازم تانکر",category:"tank",price:0,stock:4,desc:"نمونه اولیه؛ قیمت روز را وارد کنید.",image:"https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo7",name:"قطعات کشنده",category:"tractor",price:0,stock:2,desc:"نمونه اولیه؛ نوع و مدل را مشخص کنید.",image:"https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=700&q=75"},
+  {id:"demo8",name:"تزیینات تریلی",category:"decoration",price:0,stock:6,desc:"نمونه اولیه؛ عکس محصول را جایگزین کنید.",image:"https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=700&q=75"}
+];
+
+const STORAGE_KEY = "landpart_products_v1";
+const CART_KEY = "landpart_cart_v1";
+let selectedCategory = "all";
+let products = loadProducts();
+let cart = loadCart();
+let pendingImage = "";
+let adminUnlocked = false;
+
+function loadProducts(){
+  try{
+    const value = localStorage.getItem(STORAGE_KEY);
+    if(value){
+      const parsed = JSON.parse(value);
+      if(Array.isArray(parsed)) return parsed;
+    }
+  }catch(e){ console.warn("خواندن محصولات ناموفق بود",e); }
+  return SAMPLE_PRODUCTS.map(p=>({...p}));
+}
+function loadCart(){
+  try{
+    const value = JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+    return Array.isArray(value)?value:[];
+  }catch(e){return [];}
+}
+function persistProducts(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(products));
+    return true;
+  }catch(e){
+    alert("ذخیره انجام نشد؛ احتمالاً فضای مرورگر پر شده است. عکس کوچک‌تری انتخاب کن.");
+    return false;
+  }
+}
+function persistCart(){
+  try{localStorage.setItem(CART_KEY,JSON.stringify(cart));}catch(e){}
+}
+function money(n){
+  return (Number(n)||0).toLocaleString("fa-IR")+" تومان";
+}
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+function categoryName(id){
+  return CATEGORIES.find(c=>c.id===id)?.name||"سایر";
+}
+function categoryIcon(id){
+  return CATEGORIES.find(c=>c.id===id)?.emoji||"📦";
+}
+function makeId(){
+  return "lp_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,7);
+}
+function placeholderImage(){
+  return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300"><rect width="100%" height="100%" fill="#252525"/><text x="50%" y="46%" font-size="55" text-anchor="middle" fill="#e9b949">LAND PART</text><text x="50%" y="67%" font-size="20" text-anchor="middle" fill="#ffffff">PRODUCT PHOTO</text></svg>'
+  );
+}
+function safeImage(url){
+  return typeof url==="string" && (url.startsWith("https://") || url.startsWith("data:image/")) ? url : placeholderImage();
+}
+
+function renderCategories(){
+  const all = [{id:"all",name:"همه محصولات",emoji:"🛍️"},...CATEGORIES];
+  document.getElementById("categories").innerHTML=all.map(c=>`
+    <div class="category ${selectedCategory===c.id?"active":""}" onclick="selectCategory('${c.id}')">
+      <div class="emoji">${c.emoji}</div><strong>${escapeHTML(c.name)}</strong>
+    </div>`).join("");
+  document.getElementById("pCategory").innerHTML=CATEGORIES.map(c=>
+    `<option value="${c.id}">${escapeHTML(c.name)}</option>`).join("");
+}
+function selectCategory(id){
+  selectedCategory=id;
+  renderCategories();
+  renderProducts();
+  document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+function renderProducts(){
+  const query=document.getElementById("search").value.trim().toLowerCase();
+  const stockFilter=document.getElementById("stockFilter").value;
+  const sortBy=document.getElementById("sortBy").value;
+  let list=products.filter(p=>{
+    const text=[p.name,p.desc,categoryName(p.category)].join(" ").toLowerCase();
+    if(selectedCategory!=="all"&&p.category!==selectedCategory)return false;
+    if(query&&!text.includes(query))return false;
+    if(stockFilter==="available"&&Number(p.stock)<=0)return false;
+    if(stockFilter==="out"&&Number(p.stock)>0)return false;
+    return true;
+  });
+  if(sortBy==="low")list.sort((a,b)=>Number(a.price)-Number(b.price));
+  if(sortBy==="high")list.sort((a,b)=>Number(b.price)-Number(a.price));
+  document.getElementById("productCount").textContent=list.length+" محصول";
+  document.getElementById("products").innerHTML=list.length?list.map(p=>{
+    const out=Number(p.stock)<=0;
+    return `<article class="product">
+      <img src="${escapeHTML(safeImage(p.image))}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.onerror=null;this.src='${placeholderImage()}'">
+      <div class="product-body">
+        <div class="tag">${categoryIcon(p.category)} ${escapeHTML(categoryName(p.category))}</div>
+        <h3>${escapeHTML(p.name)}</h3>
+        <div class="desc">${escapeHTML(p.desc||"برای اطلاعات بیشتر تماس بگیرید.")}</div>
+        <div class="price">${Number(p.price)>0?money(p.price):"استعلام قیمت"}</div>
+        <div class="stock ${out?"out":""}">${out?"ناموجود":("موجود: "+Number(p.stock)+" عدد")}</div>
+        <div class="product-actions">
+          <button class="btn primary" ${out?"disabled":""} onclick="addToCart('${p.id}')">${out?"ناموجود":"افزودن به سبد"}</button>
+          <button class="btn dark" onclick="askProduct('${p.id}')">استعلام</button>
+        </div>
+      </div>
+    </article>`;
+  }).join(""):`<div class="empty">محصولی پیدا نشد. دسته یا عبارت جست‌وجو را تغییر بده.</div>`;
+  updateCartCount();
+}
+function updateCartCount(){
+  const count=cart.reduce((s,i)=>s+Number(i.qty||0),0);
+  document.getElementById("cartCount").textContent=count.toLocaleString("fa-IR");
+  document.getElementById("floatCount").textContent=count.toLocaleString("fa-IR");
+}
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
+  if(!p||Number(p.stock)<=0)return alert("این محصول فعلاً موجود نیست.");
+  const item=cart.find(x=>x.id===id);
+  if(item){
+    if(item.qty>=Number(p.stock))return alert("بیشتر از موجودی فروشگاه نمی‌توانی اضافه کنی.");
+    item.qty++;
+  }else cart.push({id,qty:1});
+  persistCart();renderProducts();
+}
+function openCart(){
+  renderCart();
+  document.getElementById("cartModal").classList.add("show");
+}
+function renderCart(){
+  cart=cart.filter(i=>products.some(p=>p.id===i.id));
+  const box=document.getElementById("cartItems");
+  if(!cart.length)box.innerHTML='<div class="empty">سبد خرید خالی است.</div>';
+  else box.innerHTML=cart.map(i=>{
+    const p=products.find(x=>x.id===i.id);
+    return `<div class="cart-row">
+      <div><strong>${escapeHTML(p.name)}</strong><div style="color:#e9b949">${money(p.price)}</div></div>
+      <div class="qty">
+        <button class="btn dark" onclick="changeQty('${p.id}',1)">+</button>
+        <span>${Number(i.qty).toLocaleString("fa-IR")}</span>
+        <button class="btn dark" onclick="changeQty('${p.id}',-1)">−</button>
+        <button class="btn primary" onclick="removeFromCart('${p.id}')">حذف</button>
+      </div>
+    </div>`;
+  }).join("");
+  const total=cart.reduce((s,i)=>{
+    const p=products.find(x=>x.id===i.id);
+    return s+(p?Number(p.price)*Number(i.qty):0);
+  },0);
+  document.getElementById("cartTotal").textContent="جمع کل: "+money(total);
+  persistCart();updateCartCount();
+}
+function changeQty(id,delta){
+  const item=cart.find(i=>i.id===id),p=products.find(x=>x.id===id);
+  if(!item||!p)return;
+  if(delta>0&&item.qty>=Number(p.stock))return alert("موجودی کافی نیست.");
+  item.qty+=delta;
+  if(item.qty<=0)cart=cart.filter(i=>i.id!==id);
+  persistCart();renderCart();renderProducts();
+}
+function removeFromCart(id){
+  cart=cart.filter(i=>i.id!==id);
+  persistCart();renderCart();renderProducts();
+}
+function whatsapp(message){
+  const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);
+  window.open(url,"_blank","noopener");
+}
+function contactUs(){
+  whatsapp("سلام، از سایت LAND PART پیام می‌دهم. لطفاً درباره قطعات تریلی و قیمت روز راهنمایی کنید.");
+}
+function askProduct(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  whatsapp("سلام، قیمت و موجودی این محصول از LAND PART را می‌خواهم:\nنام: "+p.name+"\nدسته: "+categoryName(p.category)+"\nلطفاً قیمت روز و مشخصات را اعلام کنید.");
+}
+function checkout(){
+  if(!cart.length)return alert("سبد خرید خالی است.");
+  const name=document.getElementById("buyerName").value.trim();
+  const phone=document.getElementById("buyerPhone").value.trim();
+  const note=document.getElementById("buyerNote").value.trim();
+  let lines=["سلام، می‌خواهم از LAND PART سفارش ثبت کنم.",name?"نام: "+name:"",phone?"شماره تماس: "+phone:"","محصولات:"];
+  let total=0;
+  for(const i of cart){
+    const p=products.find(x=>x.id===i.id);
+    if(!p)continue;
+    if(Number(p.stock)<Number(i.qty))return alert("موجودی "+p.name+" کافی نیست؛ سبد را به‌روزرسانی کن.");
+    lines.push("- "+p.name+" | تعداد: "+i.qty+" | قیمت واحد: "+money(p.price));
+    total+=Number(p.price)*Number(i.qty);
+  }
+  lines.push("جمع کل فعلی: "+money(total));
+  if(note)lines.push("توضیحات: "+note);
+  lines.push("لطفاً موجودی و قیمت نهایی را تأیید کنید.");
+  whatsapp(lines.filter(Boolean).join("\n"));
+}
+function openAdmin(){
+  document.getElementById("adminModal").classList.add("show");
+  document.getElementById("loginBox").style.display=adminUnlocked?"none":"block";
+  document.getElementById("adminContent").style.display=adminUnlocked?"block":"none";
+  if(adminUnlocked)renderAdminList();
+}
+function loginAdmin(){
+  if(document.getElementById("adminPassword").value!==ADMIN_PASSWORD){
+    alert("رمز اشتباه است.");return;
+  }
+  adminUnlocked=true;
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("adminContent").style.display="block";
+  renderAdminList();
+}
+function logoutAdmin(){
+  adminUnlocked=false;
+  document.getElementById("adminPassword").value="";
+  closeModal("adminModal");
+}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function renderAdminList(){
+  document.getElementById("adminList").innerHTML=products.length?products.map(p=>`
+    <div class="admin-item">
+      <img src="${escapeHTML(safeImage(p.image))}" alt="" onerror="this.onerror=null;this.src='${placeholderImage()}'">
+      <div class="details"><strong>${escapeHTML(p.name)}</strong><br>
+        ${money(p.price)} · موجودی: ${Number(p.stock)}
+      </div>
+      <button class="btn gold" onclick="editProduct('${p.id}')">ویرایش</button>
+      <button class="btn primary" onclick="deleteProduct('${p.id}')">حذف</button>
+    </div>`).join(""):'<p>هنوز محصولی ثبت نشده است.</p>';
+}
+function editProduct(id){
+  const p=products.find(x=>x.id===id);
+  if(!p)return;
+  document.getElementById("editId").value=p.id;
+  document.getElementById("pName").value=p.name;
+  document.getElementById("pCategory").value=p.category;
+  document.getElementById("pPrice").value=p.price;
+  document.getElementById("pStock").value=p.stock;
+  document.getElementById("pDesc").value=p.desc||"";
+  pendingImage=p.image||"";
+  const preview=document.getElementById("imagePreview");
+  preview.src=safeImage(pendingImage);preview.style.display="block";
+  document.getElementById("formTitle").textContent="✏️ ویرایش محصول";
+  document.getElementById("productForm").scrollIntoView({behavior:"smooth"});
+}
+function resetProductForm(){
+  document.getElementById("productForm").reset();
+  document.getElementById("editId").value="";
+  document.getElementById("pStock").value=1;
+  document.getElementById("pImage").value="";
+  document.getElementById("imagePreview").style.display="none";
+  document.getElementById("formTitle").textContent="➕ افزودن محصول جدید";
+  pendingImage="";
+}
+document.getElementById("pImage").addEventListener("change",event=>{
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  if(!file.type.startsWith("image/"))return alert("فقط فایل عکس انتخاب کن.");
+  if(file.size>5*1024*1024){
+    event.target.value="";
+    return alert("حجم عکس باید کمتر از ۵ مگابایت باشد.");
+  }
+  const reader=new FileReader();
+  reader.onload=()=>{
+    pendingImage=String(reader.result);
+    const preview=document.getElementById("imagePreview");
+    preview.src=pendingImage;preview.style.display="block";
+  };
+  reader.readAsDataURL(file);
+});
+function saveProduct(event){
+  event.preventDefault();
+  if(!adminUnlocked)return alert("ابتدا وارد پنل مدیریت شو.");
+  const editId=document.getElementById("editId").value;
+  const old=products.find(p=>p.id===editId);
+  const p={
+    id:old?old.id:makeId(),
+    name:document.getElementById("pName").value.trim(),
+    category:document.getElementById("pCategory").value,
+    price:Number(document.getElementById("pPrice").value),
+    stock:Number(document.getElementById("pStock").value),
+    desc:document.getElementById("pDesc").value.trim(),
+    image:pendingImage||(old?old.image:placeholderImage())
+  };
+  if(!p.name||!Number.isFinite(p.price)||p.price<0||!Number.isInteger(p.stock)||p.stock<0){
+    return alert("نام، قیمت و موجودی را درست وارد کن.");
+  }
+  const previous=products;
+  products=old?products.map(x=>x.id===old.id?p:x):[p,...products];
+  if(!persistProducts()){products=previous;return;}
+  renderProducts();renderAdminList();resetProductForm();
+  alert("محصول ذخیره شد.");
+}
+function deleteProduct(id){
+  if(!adminUnlocked)return;
+  const p=products.find(x=>x.id===id);
+  if(!p||!confirm("محصول «"+p.name+"» حذف شود؟"))return;
+  const previous=products;
+  products=products.filter(x=>x.id!==id);
+  if(!persistProducts()){products=previous;return;}
+  cart=cart.filter(i=>i.id!==id);persistCart();
+  renderProducts();renderAdminList();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(products,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="land-part-products.json";a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function importData(event){
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!Array.isArray(data)||!data.every(p=>p&&typeof p.name==="string"&&typeof p.id==="string")){
+        throw new Error("ساختار فایل معتبر نیست");
+      }
+      const previous=products;products=data;
+      if(!persistProducts()){products=previous;return;}
+      renderProducts();renderAdminList();alert("پشتیبان بازیابی شد.");
+    }catch(e){alert("فایل پشتیبان معتبر نیست.");}
+    event.target.value="";
+  };
+  reader.readAsText(file);
+}
+document.querySelectorAll(".modal").forEach(modal=>{
+  modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show");});
+});
+renderCategories();
+renderProducts();
+</script>
+</body>
+</html>
